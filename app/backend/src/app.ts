@@ -1,5 +1,5 @@
 import * as express from 'express';
-// starting project 
+// starting project
 class App {
   public app: express.Express;
 
