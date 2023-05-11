@@ -1,7 +1,11 @@
 import { Model, DataTypes } from 'sequelize';
 import db from '.';
 
-export default class TeamsModel extends Model {
+export interface teamsAttributes {
+  id: number,
+  teamName: string,
+}
+export default class TeamsModel extends Model<teamsAttributes> {
   declare id: number;
   declare teamName: string;
 }
@@ -19,6 +23,7 @@ TeamsModel.init({
   },
 }, {
   sequelize: db,
-  underscored: true,
+  modelName: 'teams',
   timestamps: false,
+  underscored: true,
 });
