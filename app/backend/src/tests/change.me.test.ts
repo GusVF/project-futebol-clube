@@ -6,10 +6,10 @@ import teamMock from './teamMock';
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-// import Example from '../database/models/ExampleModel';
-
 import { Response } from 'superagent';
-import TeamsModel, { teamsAttributes } from '../database/models/TeamsModel';
+import TeamsModel from '../database/models/TeamsModel';
+import TeamsController from '../controllers/TeamsController';
+import { response } from 'express';
 
 chai.use(chaiHttp);
 
@@ -37,5 +37,10 @@ describe('Teams Service tests', () => {
 
       expect(teams).to.be.deep.equal(teamMock);
     });
+    it('expects a status 200', async () => {
+     const response = await chai.request(app)
+     .get('/teams')
+     expect(response.status).to.be.equal(200);
+    })
   })
 });
