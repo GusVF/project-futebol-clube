@@ -5,4 +5,12 @@ export default class TeamsService {
     const allTeams = await TeamsModel.findAll();
     return allTeams;
   }
+
+  public static async findById(id: number): Promise<teamsAttributes> {
+    const teamById = await TeamsModel.findByPk(id);
+    if (!teamById) {
+      throw new Error('Team not found');
+    }
+    return teamById;
+  }
 }

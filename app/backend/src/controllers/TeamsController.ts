@@ -6,6 +6,13 @@ async function findAll(_req: Request, res: Response) {
   return res.status(200).json(allTeams);
 }
 
+async function findById(req: Request, res: Response) {
+  const { id } = req.params;
+  const teamById = await TeamsService.findById(Number(id));
+  return res.status(200).json(teamById);
+}
+
 export default {
   findAll,
+  findById,
 };
