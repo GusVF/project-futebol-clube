@@ -9,11 +9,8 @@ export default class UserMiddleware {
     if (!email || !password) {
       res.status(400).json({ message: 'All fields must be filled' });
     }
-    if (!emailRegex.test(email)) {
-      res.status(400).json({ message: 'Invalid e-mail' });
-    }
-    if (password < 6) {
-      res.status(400).json({ message: 'Invalid password' });
+    if (!emailRegex.test(email) || password.length < 6) {
+      res.status(401).json({ message: 'Invalid email or password' });
     }
     next();
   }
