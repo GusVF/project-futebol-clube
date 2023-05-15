@@ -10,16 +10,16 @@ function generateToken(payload: AppJwtPayload) {
     expiresIn: '300d',
     algorithm: 'HS256',
   };
-  const token = jwt.sign(payload, 'SECRET', config);
+  const token = jwt.sign(payload, process.env.JWT_SECRET || 'SECRET', config);
   return token;
 }
 
-// function verify(token: string): AppJwtPayload {
-//   const decoded = Jwt.verify(token, process.env.JWT_SECRET);
-//   return decoded as AppJwtPayload;
-// }
+function verifyToken(token: string) {
+  const decoded = jwt.verify(token, process.env.JWT_SECRET || 'SECRET');
+  return decoded as AppJwtPayload;
+}
 
 export default {
   generateToken,
-  // verify,
+  verifyToken,
 };

@@ -59,7 +59,7 @@ describe('Tests for Model, Service, Controller for User Route', () => {
       const mockPayload = {
         email: 'admin@admin.com',
         password: 'senha_admin',
-
+        role: 'admin'
       };
       const mockToken = 'mockToken';
       const config: jwt.SignOptions = {

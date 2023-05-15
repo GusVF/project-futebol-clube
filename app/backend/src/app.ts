@@ -27,6 +27,7 @@ class App {
     this.app.use(accessControl);
     this.app.use('/teams', this.team);
     this.app.use('/teams/:id', this.team);
+    this.app.use('/login/role', this.user);
     this.app.use('/login', this.user);
   }
 

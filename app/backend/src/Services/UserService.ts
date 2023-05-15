@@ -15,6 +15,14 @@ export default class UserService {
     if (!passwordValidation) {
       return { message: 'Invalid email or password' };
     }
-    return JwtToken.generateToken({ email: userLogin.email, password: userLogin.password });
+    return JwtToken.generateToken({ email, password });
+  }
+
+  public static async userRole(email: string): Promise<string | { message: string }> {
+    const userRole = await UserModel.findOne({ where: { email } });
+    if (userRole?.email !== email) {
+      return { message: 'Token must be a valid token' };
+    }
+    return userRole.dataValues.role;
   }
 }
