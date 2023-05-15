@@ -10,6 +10,7 @@ import JwtToken from '../Services/JwtToken';
 import UserService from '../Services/UserService';
 import UserController from '../controllers/UserController';
 import * as jwt from 'jsonwebtoken';
+import * as bcrypt from 'bcryptjs';
 
 chai.use(chaiHttp);
 
@@ -21,22 +22,25 @@ describe('Tests for Model, Service, Controller for User Route', () => {
   });
   describe('User login with success', () => {
     it('Tests "findOne" function with a token as return and status 200', async () => {
-      // const token = JwtToken.generateToken({ email: 'admin@admin.com', password: 'senha_admin' });
+
       sinon.stub(JwtToken, 'generateToken').resolves('mockToken')
+
       sinon.stub(UserModel, 'findOne').resolves({
                  id: 1,
                  username: 'admin',
                  role: 'admin',
                  email: 'admin@admin.com',
                  password: "senha_admin"
-               } as UserModel)
+               } as UserModel);
+               const bcryptStub = sinon.stub(bcrypt, 'compare').resolves(true);
                const response = await chai.request(app)
                .post('/login')
                .send({email: 'admin@admin.com', password: 'senha_admin'});
       expect(response.status).to.be.equal(200);
       expect(response.body).to.be.deep.equal({token: 'mockToken'})
-    })
-  })
+      bcryptStub.restore(); 
+    });
+  });
   describe('Tests an invalid email or password', () => {
     it('Returns status 401 with message', async () => {
       sinon.stub(UserModel, 'findOne').resolves(undefined);

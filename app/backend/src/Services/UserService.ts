@@ -15,7 +15,7 @@ export default class UserService {
     if (!passwordValidation) {
       return { message: 'Invalid email or password' };
     }
-    return JwtToken.generateToken({ email, password });
+    return JwtToken.generateToken({ email: userLogin.email, password: userLogin.password });
   }
 
   public static async userRole(email: string): Promise<string | { message: string }> {
