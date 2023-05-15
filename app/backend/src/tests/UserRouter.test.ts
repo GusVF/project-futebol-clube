@@ -76,4 +76,21 @@ describe('Tests for Model, Service, Controller for User Route', () => {
       expect(signStub.calledWith(mockPayload, 'SECRET', config))
     });
   }); 
+  describe('Test for the /login/role Route', () => {
+    it('Tests "/login/role" Route with error and status 401', async () => {
+      sinon.stub(UserModel, 'findOne').resolves(undefined);
+
+      const response = await chai.request(app)
+      .get('/login/role')
+      .send('string');
+      expect(response.status).to.be.equal(401);
+      expect(response.body).to.be.deep.equal({ message: 'Token not found' });
+    });
+    it('Tests "/login/role" Route with error message', async () => {
+     sinon.stub(UserModel, 'findOne').resolves(undefined);
+     const result = await UserService.userRole('string');
+     
+     expect(result).to.be.deep.equal({ message: 'Token must be a valid token' })
+    });
+  });
 });
