@@ -4,6 +4,12 @@ import UserMiddleware from '../Middlewares/UserMiddleware';
 
 const userRouter = Router();
 
-userRouter.get('/', UserMiddleware.ValidateUser, UserController.userLogin);
+userRouter.post(
+  '/',
+  (req, res, next) => UserMiddleware
+    .ValidateUser(req, res, next),
+
+  (req, res) => UserController.userLogin(req, res),
+);
 
 export default userRouter;

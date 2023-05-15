@@ -7,10 +7,10 @@ export default class UserMiddleware {
     const { email, password } = req.body;
     const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/;
     if (!email || !password) {
-      res.status(400).json({ message: 'All fields must be filled' });
+      return res.status(400).json({ message: 'All fields must be filled' });
     }
     if (!emailRegex.test(email) || password.length < 6) {
-      res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: 'Invalid email or password' });
     }
     next();
   }

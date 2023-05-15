@@ -59,11 +59,10 @@ describe('Teams Model, Service, Controller and Route tests', () => {
       expect(response.status).to.be.equal(200);
     })
     it('Returns an Error message if id is not found', async () => {
+      sinon.stub(TeamsModel, 'findByPk').resolves(undefined);
+      const response = await TeamsService.findById(100);
 
-      const response: Response = await chai.request(app)
-      .get('/teams/100')
-
-      expect(response.error.message).to.be.equal('Team not found');
+      expect(response).to.be.deep.equal({ message: 'Team not found'});
     })
   })
 });

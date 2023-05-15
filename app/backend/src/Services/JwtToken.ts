@@ -1,12 +1,16 @@
-import { sign } from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 
 type AppJwtPayload = {
   email: string,
   password: string,
 };
 
-function generateToken<type extends AppJwtPayload>(payload: type): string {
-  const token = sign(payload, 'SECRET');
+function generateToken(payload: AppJwtPayload) {
+  const config: jwt.SignOptions = {
+    expiresIn: '300d',
+    algorithm: 'HS256',
+  };
+  const token = jwt.sign(payload, 'SECRET', config);
   return token;
 }
 

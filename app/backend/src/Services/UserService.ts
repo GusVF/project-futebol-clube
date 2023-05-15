@@ -5,12 +5,16 @@ import UserModel from '../database/models/UsersModel';
 import JwtToken from './JwtToken';
 
 export default class UserService {
-  public static async userLogin(email: string, password: string): Promise<string> {
+  public static async userLogin(email: string, password: string)
+    : Promise<string | { message: string }> {
     const userLogin = await UserModel.findOne({ where: { email } });
-    if (userLogin?.password !== password || userLogin?.email !== email) {
-      return ('Invalid email or password');
+    if (userLogin?.email !== email) {
+      return { message: 'Invalid email or password' };
     }
-    await bcrypt.compare(password, userLogin.password);
+    const passwordValidation = await bcrypt.compare(password, userLogin.password);
+    if (!passwordValidation) {
+      return { message: 'Invalid email or password' };
+    }
     return JwtToken.generateToken({ email: userLogin.email, password: userLogin.password });
   }
 }

@@ -9,6 +9,9 @@ async function findAll(_req: Request, res: Response) {
 async function findById(req: Request, res: Response) {
   const { id } = req.params;
   const teamById = await TeamsService.findById(Number(id));
+  if (!teamById) {
+    return res.status(401).json(teamById);
+  }
   return res.status(200).json(teamById);
 }
 
