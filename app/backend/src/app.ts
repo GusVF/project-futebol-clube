@@ -2,7 +2,6 @@ import * as express from 'express';
 import teamRouter from './Routers/TeamRouter';
 import userRouter from './Routers/UserRouter';
 import matchRouter from './Routers/MatchRouter';
-// import UserMiddleware from './Middlewares/UserMiddleware';
 
 class App {
   public app: express.Express;
