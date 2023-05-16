@@ -1,12 +1,17 @@
 import * as express from 'express';
 import teamRouter from './Routers/TeamRouter';
 import userRouter from './Routers/UserRouter';
+import matchRouter from './Routers/MatchRouter';
 // import UserMiddleware from './Middlewares/UserMiddleware';
 
 class App {
   public app: express.Express;
 
-  constructor(private team = teamRouter, private user = userRouter) {
+  constructor(
+    private team = teamRouter,
+    private user = userRouter,
+    private match = matchRouter,
+  ) {
     this.app = express();
 
     this.config();
@@ -29,6 +34,7 @@ class App {
     this.app.use('/teams/:id', this.team);
     this.app.use('/login/role', this.user);
     this.app.use('/login', this.user);
+    this.app.use('/matches', this.match);
   }
 
   public start(PORT: string | number):void {
