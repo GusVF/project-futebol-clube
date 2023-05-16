@@ -11,6 +11,23 @@ async function findMatches(req: Request, res: Response) {
   return res.status(200).json(allMatches);
 }
 
+async function finishMatch(req: Request, res: Response) {
+  const { authorization } = req.headers;
+  const { id } = req.params;
+  if (!authorization) {
+    return res.status(401).json({ message: 'Token not found' });
+  }
+
+  if (!id) {
+    return res.status(401).json({ message: 'Invalid match id' });
+  }
+
+  const result = await MatchService.finishMatch(Number(id));
+
+  return res.status(200).json(result);
+}
+
 export default {
   findMatches,
+  finishMatch,
 };
