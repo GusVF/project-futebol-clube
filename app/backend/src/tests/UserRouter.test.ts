@@ -11,6 +11,8 @@ import UserService from '../Services/UserService';
 import UserController from '../controllers/UserController';
 import * as jwt from 'jsonwebtoken';
 import * as bcrypt from 'bcryptjs';
+import { response } from 'express';
+
 
 chai.use(chaiHttp);
 
@@ -89,8 +91,34 @@ describe('Tests for Model, Service, Controller for User Route', () => {
     it('Tests "/login/role" Route with error message', async () => {
      sinon.stub(UserModel, 'findOne').resolves(undefined);
      const result = await UserService.userRole('string');
-     
+
      expect(result).to.be.deep.equal({ message: 'Token must be a valid token' })
     });
+    it('GET /login/role with error 401', async () => {
+      const response = await chai.request(app)
+      .get('/login/role')
+      expect(response.status).to.be.equal(401);
+      expect(response.body).to.be.deep.equal({ message: 'Token not found' });
+   });
+   it('GET /login/role with success and status 200', async () => {
+    sinon.stub(JwtToken, 'verifyToken').returns({
+      email: 'admin@admin.com',
+      password: 'senha_admin'
+    })
+      const response = await chai.request(app)
+      .get('/login/role')
+      .set('authorization', 'token-valid')
+    expect(response.status).to.be.equal(200);
+    expect(response.body).to.be.deep.equal({ role: 'admin'})
+  });
+  // it('Tests the Jwt "verify" function in the JwtToken', () => {
+  //   const token = 'mockToken';
+  // const decodedToken = { email: 'admin@admin.com', password: 'senha_admin' };
+
+  // const verifyStub = sinon.stub(jwt, 'verify').resolves(decodedToken);
+  // verifyStub(token, 'SECRET' )
+  // expect(verifyStub.calledOnceWith(token, 'SECRET')).to.be.true;
+
+  // });
   });
 });

@@ -14,7 +14,7 @@ function generateToken(payload: AppJwtPayload) {
   return token;
 }
 
-function verifyToken(token: string) {
+function verifyToken(token: string): AppJwtPayload {
   const decoded = jwt.verify(token, process.env.JWT_SECRET || 'SECRET');
   return decoded as AppJwtPayload;
 }
