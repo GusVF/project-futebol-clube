@@ -110,5 +110,31 @@ describe('Tests for Matches Route, Model, Service, Controller', () => {
     expect(response.status).to.be.equal(201);
     expect(response.body).to.be.deep.equal(MatchMock.mockNewMatch)
     });
+    it('Tests creatNewMatch function with error and status 422', async () => {
+     sinon.stub(MatchesModel, 'create').resolves(MatchMock.sameIdsMockmatches);
+     sinon.stub(JwtToken, 'verifyToken').resolves({
+      email: 'admin@admin.com',
+      password: 'senha_admin'
+    }); 
+    const response = await chai.request(app)
+    .post('/matches')
+    .set('Authorization', 'token-valid')
+    .send(MatchMock.sameIdsMockmatches)
+    expect(response.status).to.be.equal(422);
+    expect(response.body).to.be.deep.equal({ message: 'It is not possible to create a match with two equal teams'})
+    });
+    it('Tests creatNewMatch function with error and status 422', async () => {
+     sinon.stub(MatchesModel, 'create').resolves(MatchMock.badIdMockmatches);
+     sinon.stub(JwtToken, 'verifyToken').resolves({
+      email: 'admin@admin.com',
+      password: 'senha_admin'
+    }); 
+    const response = await chai.request(app)
+    .post('/matches')
+    .set('Authorization', 'token-valid')
+    .send(MatchMock.badIdMockmatches)
+    expect(response.status).to.be.equal(404);
+    expect(response.body).to.be.deep.equal({ message: 'There is no team with such id!'})
+    });
   });
 });

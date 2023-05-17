@@ -45,13 +45,6 @@ const mockFinishedmatches = {
   }
 } as MatchReturnAtributes;
 
-// const mockNewMatch = {
-//   "homeTeamId": 1,
-//   "homeTeamGoals": 1,
-//   "awayTeamId": 2,
-//   "awayTeamGoals": 4,
-// } as MatchReturnAtributes;
-
 const mockNewMatch = {
   "id": 1,
   "homeTeamId": 1,
@@ -61,6 +54,35 @@ const mockNewMatch = {
   "inProgress": false,
 } as MatchReturnAtributes;
 
+const sameIdsMockmatches = {
+  "id": 1,
+  "homeTeamId": 1,
+  "homeTeamGoals": 1,
+  "awayTeamId": 1,
+  "awayTeamGoals": 1,
+  "inProgress": false,
+  "homeTeam": {
+    "teamName": "São Paulo"
+  },
+  "awayTeam": {
+    "teamName": "Grêmio"
+  }
+} as MatchReturnAtributes;
+
+const badIdMockmatches = {
+  "id": 1,
+  "homeTeamId": 100,
+  "homeTeamGoals": 1,
+  "awayTeamId": 1,
+  "awayTeamGoals": 1,
+  "inProgress": false,
+  "homeTeam": {
+    "teamName": "São Paulo"
+  },
+  "awayTeam": {
+    "teamName": "Grêmio"
+  }
+} as MatchReturnAtributes;
 const mockmatchesLeaderboard = [{
   "id": 1,
   "homeTeamId": 1,
@@ -75,7 +97,8 @@ export default {
     mockFinishedmatches,
     mockNewMatch,
     mockmatchesLeaderboard,
-    // mockNewMatchReturn,
+    sameIdsMockmatches,
+    badIdMockmatches,
 }
 
 export {MatchReturnAtributes}
