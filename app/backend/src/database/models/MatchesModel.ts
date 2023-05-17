@@ -4,19 +4,19 @@ import TeamsModel from './TeamsModel';
 
 export interface matchesAttributes {
   id: number;
-  homeTeamId: string;
-  homeTeamGoals: string;
-  awayTeamId: string;
-  awayTeamGoals: string;
+  homeTeamId: number;
+  homeTeamGoals: number;
+  awayTeamId: number;
+  awayTeamGoals: number;
   inProgress: boolean;
 }
 
 export default class MatchesModel extends Model<matchesAttributes> {
   declare id: number;
-  declare homeTeamId: string;
-  declare homeTeamGoals: string;
-  declare awayTeamId: string;
-  declare awayTeamGoals: string;
+  declare homeTeamId: number;
+  declare homeTeamGoals: number;
+  declare awayTeamId: number;
+  declare awayTeamGoals: number;
   declare inProgress: boolean;
 }
 
@@ -30,7 +30,7 @@ MatchesModel.init({
   homeTeamId: {
     unique: true,
     allowNull: false,
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     references: {
       model: 'teams',
       key: 'id',
@@ -38,12 +38,12 @@ MatchesModel.init({
   },
   homeTeamGoals: {
     allowNull: false,
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
   },
   awayTeamId: {
     unique: true,
     allowNull: false,
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     references: {
       model: 'teams',
       key: 'id',
@@ -51,7 +51,7 @@ MatchesModel.init({
   },
   awayTeamGoals: {
     allowNull: false,
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
   },
   inProgress: {
     allowNull: false,
