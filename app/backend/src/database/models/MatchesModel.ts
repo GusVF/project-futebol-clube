@@ -11,6 +11,8 @@ export interface matchesAttributes {
   inProgress: boolean;
 }
 
+export type matchesAttributesCretor = Omit<matchesAttributes, 'id'>;
+
 export default class MatchesModel extends Model<matchesAttributes> {
   declare id: number;
   declare homeTeamId: number;

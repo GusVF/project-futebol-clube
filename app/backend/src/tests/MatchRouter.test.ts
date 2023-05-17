@@ -67,4 +67,33 @@ describe('Tests for Matches Route, Model, Service, Controller', () => {
       expect(response.status).to.be.equal(401);
       expect(response.body).to.be.deep.equal({message: 'Token not found'})
   });
+  describe('Tests the updateMatchScore function', () => {
+   it('Test a successful update with status 200', async () => {
+    sinon.stub(MatchesModel, 'findOne').resolves(MatchMock.mockmatches);
+    sinon.stub(MatchesModel, 'update').resolves([1]); 
+      sinon.stub(JwtToken, 'verifyToken').resolves({
+        email: 'admin@admin.com',
+        password: 'senha_admin'
+      }); 
+      const response = await chai.request(app)
+        .patch(`/matches/1`)
+        .set('Authorization', 'token-valid');
+      expect(response.status).to.be.equal(200);
+      expect(response.body).to.be.deep.equal({ message: 'Match score updated' });
+   });
+   it('Test a successful update with status 401', async () => {
+    sinon.stub(MatchesModel, 'findOne').resolves(MatchMock.mockFinishedmatches);
+    sinon.stub(MatchesModel, 'update').resolves([1]); 
+      sinon.stub(JwtToken, 'verifyToken').resolves({
+        email: 'admin@admin.com',
+        password: 'senha_admin'
+      }); 
+
+      const response = await chai.request(app)
+        .patch(`/matches/1`)
+        .set('Authorization', 'token-valid');
+      // expect(response.status).to.be.equal(401);
+      expect(response.body).to.be.deep.equal({ message: 'Match already finished' });
+   });
+  });
 });

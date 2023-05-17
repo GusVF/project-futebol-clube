@@ -55,7 +55,7 @@ export default class MatchService {
     homeTeamGoals: number,
   ):Promise<matchesAttributes | { message: string }> {
     const matchId = await MatchesModel.findOne({ where: { id } });
-    if (matchId?.inProgress === false) {
+    if (!matchId?.inProgress) {
       return { message: 'Match already finished' };
     }
     await MatchesModel
