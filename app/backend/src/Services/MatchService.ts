@@ -66,7 +66,15 @@ export default class MatchService {
     return { message: 'Match score updated' };
   }
 
-  public static async createNewMatch(match: matchesAttributesCreator):Promise<matchesAttributes> {
+  public static async createNewMatch(
+    match: matchesAttributesCreator,
+  ):Promise<matchesAttributes | { message: string }> {
+    const homeTeam = await MatchesModel.findOne({ where: { id: match.homeTeamId } });
+    const awayTeam = await MatchesModel.findOne({ where: { id: match.awayTeamId } });
+
+    if (!homeTeam || !awayTeam) {
+      return { message: 'There is no team with such id!' };
+    }
     const newMatch = await MatchesModel.create({ ...match, inProgress: true });
     return newMatch;
   }

@@ -40,6 +40,13 @@ async function updateMatchScore(req: Request, res: Response) {
 async function createNewMatch(req: Request, res: Response) {
   const newMatch = await MatchService.createNewMatch(req.body);
 
+  if ('message' in newMatch) {
+    return res.status(404).json({ message: newMatch.message });
+  }
+  if (newMatch.awayTeamId === newMatch.homeTeamId) {
+    return res.status(422)
+      .json({ message: 'It is not possible to create a match with two equal teams' });
+  }
   return res.status(201).json(newMatch);
 }
 
