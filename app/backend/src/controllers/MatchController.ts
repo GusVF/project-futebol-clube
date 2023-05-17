@@ -37,8 +37,15 @@ async function updateMatchScore(req: Request, res: Response) {
   return res.status(200).json(result);
 }
 
+async function createNewMatch(req: Request, res: Response) {
+  const newMatch = await MatchService.createNewMatch(req.body);
+
+  return res.status(201).json(newMatch);
+}
+
 export default {
   findMatches,
   finishMatch,
   updateMatchScore,
+  createNewMatch,
 };

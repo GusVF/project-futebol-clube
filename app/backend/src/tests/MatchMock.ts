@@ -56,7 +56,7 @@ const notExistMockmatches = {
     "teamName": "São Paulo"
   },
   "awayTeam": {
-    "teamName": "Grêmio"
+    "teamName": "Inter de Milão"
   }
 } as MatchReturnAtributes;
 
@@ -69,29 +69,11 @@ const mockmatchesLeaderboard = [{
   "inProgress": false,
 }];
 
-const mockmatchesLeaderboardAway = [{
-  "id": 1,
-  "homeTeamId": 8,
-  "homeTeamGoals": 5,
-  "awayTeamId": 1,
-  "awayTeamGoals": 1,
-  "inProgress": false,
-}];
-
-const teamMock = [ 
-  {
-    id: 5,
-    teamName: "Cruzeiro"
-  },
-]
-
 export default {
     mockmatches,
     mockFinishedmatches,
     notExistMockmatches,
-    teamMock,
     mockmatchesLeaderboard,
-    mockmatchesLeaderboardAway
 }
 
-export {MatchReturnAtributes,}
+export {MatchReturnAtributes}

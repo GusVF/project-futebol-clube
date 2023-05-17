@@ -1,5 +1,8 @@
 import TeamsModel from '../database/models/TeamsModel';
-import MatchesModel, { matchesAttributes } from '../database/models/MatchesModel';
+import MatchesModel, {
+  matchesAttributes,
+  matchesAttributesCreator,
+} from '../database/models/MatchesModel';
 
 export default class MatchService {
   public static async findAllMatches(): Promise<matchesAttributes[]> {
@@ -61,5 +64,10 @@ export default class MatchService {
     await MatchesModel
       .update({ awayTeamGoals, homeTeamGoals }, { where: { id } });
     return { message: 'Match score updated' };
+  }
+
+  public static async createNewMatch(match: matchesAttributesCreator):Promise<matchesAttributes> {
+    const newMatch = await MatchesModel.create({ ...match, inProgress: true });
+    return newMatch;
   }
 }
