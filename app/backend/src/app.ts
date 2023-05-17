@@ -34,7 +34,6 @@ class App {
     this.app.use('/login/role', this.user);
     this.app.use('/login', this.user);
     this.app.use('/matches', this.match);
-    // this.app.use('/matches', this.match);
   }
 
   public start(PORT: string | number):void {

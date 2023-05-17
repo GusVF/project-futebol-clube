@@ -27,7 +27,18 @@ async function finishMatch(req: Request, res: Response) {
   return res.status(200).json(result);
 }
 
+async function updateMatchScore(req: Request, res: Response) {
+  const { id } = req.params;
+  const { awayTeamGoals, homeTeamGoals } = req.body;
+  const result = await MatchService.updateMatchScore(Number(id), awayTeamGoals, homeTeamGoals);
+  if (!result) {
+    return res.status(401).json(result);
+  }
+  return res.status(200).json(result);
+}
+
 export default {
   findMatches,
   finishMatch,
+  updateMatchScore,
 };

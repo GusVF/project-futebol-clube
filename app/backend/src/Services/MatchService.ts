@@ -42,14 +42,24 @@ export default class MatchService {
   public static async finishMatch(id: number): Promise<matchesAttributes | { message: string }> {
     const matchId = await MatchesModel.findOne({ where: { id } });
 
-    if (!matchId) {
-      return { message: 'Id not found' };
-    }
-    if (matchId.inProgress === false) {
+    if (matchId?.inProgress === false) {
       return { message: 'Match already finished' };
     }
-    // alterar no banco de dados inProgress === false
     await MatchesModel.update({ inProgress: false }, { where: { id } });
     return { message: 'Finished' };
+  }
+
+  public static async updateMatchScore(
+    id: number,
+    awayTeamGoals: number,
+    homeTeamGoals: number,
+  ):Promise<matchesAttributes | { message: string }> {
+    const matchId = await MatchesModel.findOne({ where: { id } });
+    if (matchId?.inProgress === false) {
+      return { message: 'Match already finished' };
+    }
+    await MatchesModel
+      .update({ awayTeamGoals, homeTeamGoals }, { where: { id } });
+    return { message: 'Match score updated' };
   }
 }
