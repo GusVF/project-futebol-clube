@@ -45,19 +45,20 @@ const mockFinishedmatches = {
   }
 } as MatchReturnAtributes;
 
-const notExistMockmatches = {
+// const mockNewMatch = {
+//   "homeTeamId": 1,
+//   "homeTeamGoals": 1,
+//   "awayTeamId": 2,
+//   "awayTeamGoals": 4,
+// } as MatchReturnAtributes;
+
+const mockNewMatch = {
   "id": 1,
   "homeTeamId": 1,
   "homeTeamGoals": 1,
-  "awayTeamId": 99,
+  "awayTeamId": 2,
   "awayTeamGoals": 4,
   "inProgress": false,
-  "homeTeam": {
-    "teamName": "São Paulo"
-  },
-  "awayTeam": {
-    "teamName": "Inter de Milão"
-  }
 } as MatchReturnAtributes;
 
 const mockmatchesLeaderboard = [{
@@ -72,8 +73,9 @@ const mockmatchesLeaderboard = [{
 export default {
     mockmatches,
     mockFinishedmatches,
-    notExistMockmatches,
+    mockNewMatch,
     mockmatchesLeaderboard,
+    // mockNewMatchReturn,
 }
 
 export {MatchReturnAtributes}

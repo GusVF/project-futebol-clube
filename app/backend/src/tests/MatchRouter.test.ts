@@ -1,6 +1,6 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
-import MatchMock, {MatchReturnAtributes} from './MatchMock';
+import MatchMock from './MatchMock';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 import { app } from '../app';
@@ -95,5 +95,20 @@ describe('Tests for Matches Route, Model, Service, Controller', () => {
       // expect(response.status).to.be.equal(401);
       expect(response.body).to.be.deep.equal({ message: 'Match already finished' });
    });
+  });
+  describe('Creating new match', () => {
+    it('Tests creatNewMatch function with succes and status 201', async () => {
+     sinon.stub(MatchesModel, 'create').resolves(MatchMock.mockNewMatch);
+     sinon.stub(JwtToken, 'verifyToken').resolves({
+      email: 'admin@admin.com',
+      password: 'senha_admin'
+    }); 
+    const response = await chai.request(app)
+    .post('/matches')
+    .set('Authorization', 'token-valid')
+    .send(MatchMock.mockNewMatch)
+    expect(response.status).to.be.equal(201);
+    expect(response.body).to.be.deep.equal(MatchMock.mockNewMatch)
+    });
   });
 });
