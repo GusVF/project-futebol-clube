@@ -5,6 +5,24 @@ import MatchesModel, {
 } from '../database/models/MatchesModel';
 
 export default class MatchService {
+  public static async findMatchById(id: number): Promise<matchesAttributes[]> {
+    const allMatches = await MatchesModel.findAll({ where: { homeTeamId: id, inProgress: false },
+      include: [
+        {
+          attributes: { exclude: ['id'] },
+          model: TeamsModel,
+          as: 'homeTeam',
+        },
+        {
+          attributes: { exclude: ['id'] },
+          model: TeamsModel,
+          as: 'awayTeam',
+        },
+      ],
+    });
+    return allMatches;
+  }
+
   public static async findAllMatches(): Promise<matchesAttributes[]> {
     const allMatches = await MatchesModel.findAll({
       include: [
