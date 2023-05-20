@@ -1,6 +1,6 @@
 import MatchesModel from '../database/models/MatchesModel';
 
-interface MatchReturnAtributes extends MatchesModel{
+interface MatchReturnAtributes extends MatchesModel {
   id: number;
   homeTeamId: number;
   homeTeamGoals: number;
@@ -16,18 +16,18 @@ interface MatchReturnAtributes extends MatchesModel{
 }
 
 const mockmatches = {
-    "id": 1,
-    "homeTeamId": 16,
-    "homeTeamGoals": 1,
-    "awayTeamId": 8,
-    "awayTeamGoals": 1,
-    "inProgress": true,
-    "homeTeam": {
-      "teamName": "São Paulo"
-    },
-    "awayTeam": {
-      "teamName": "Grêmio"
-    }
+  "id": 1,
+  "homeTeamId": 16,
+  "homeTeamGoals": 1,
+  "awayTeamId": 8,
+  "awayTeamGoals": 1,
+  "inProgress": true,
+  "homeTeam": {
+    "teamName": "São Paulo"
+  },
+  "awayTeam": {
+    "teamName": "Grêmio"
+  }
 } as MatchReturnAtributes;
 
 const mockFinishedmatches = {
@@ -83,6 +83,7 @@ const badIdMockmatches = {
     "teamName": "Grêmio"
   }
 } as MatchReturnAtributes;
+
 const mockmatchesLeaderboard = [{
   "id": 1,
   "homeTeamId": 1,
@@ -90,15 +91,57 @@ const mockmatchesLeaderboard = [{
   "awayTeamId": 8,
   "awayTeamGoals": 1,
   "inProgress": false,
-}];
+},
+];
 
-export default {
-    mockmatches,
-    mockFinishedmatches,
-    mockNewMatch,
-    mockmatchesLeaderboard,
-    sameIdsMockmatches,
-    badIdMockmatches,
+interface MatchLeaderBoardAtt extends MatchesModel {
+  name: string,
+  totalPoints: number,
+  totalGames: number,
+  totalVictories: number,
+  totalDraws: number,
+  totalLosses: number,
+  goalsFavor: number,
+  goalsOwn: number,
+  goalsBalance: number,
+  efficiency: "100.00"
 }
 
-export {MatchReturnAtributes}
+const matchTeamStatsHome = {
+  "name": "Santos",
+  "totalPoints": 9,
+  "totalGames": 3,
+  "totalVictories": 3,
+  "totalDraws": 0,
+  "totalLosses": 0,
+  "goalsFavor": 9,
+  "goalsOwn": 3,
+  "goalsBalance": 6,
+  "efficiency": "100.00"
+} as MatchLeaderBoardAtt;
+
+const matchTeamStatsAway = {
+  "name": "Palmeiras",
+  "totalPoints": 6,
+  "totalGames": 2,
+  "totalVictories": 2,
+  "totalDraws": 0,
+  "totalLosses": 0,
+  "goalsFavor": 7,
+  "goalsOwn": 0,
+  "goalsBalance": 7,
+  "efficiency": "100.00"
+} as MatchLeaderBoardAtt;
+
+export default {
+  mockmatches,
+  mockFinishedmatches,
+  mockNewMatch,
+  mockmatchesLeaderboard,
+  sameIdsMockmatches,
+  badIdMockmatches,
+  matchTeamStatsHome,
+  matchTeamStatsAway,
+}
+
+export { MatchReturnAtributes, MatchLeaderBoardAtt }
