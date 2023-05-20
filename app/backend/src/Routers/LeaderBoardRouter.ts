@@ -7,4 +7,6 @@ leaderBoardRouter.get('/home', (req, res) => LearderBoardController.getAllHomeSt
 
 leaderBoardRouter.get('/away', (req, res) => LearderBoardController.getAllAwayStats(req, res));
 
+leaderBoardRouter.get('/', (req, res) => LearderBoardController.getAllTeams(req, res));
+
 export default leaderBoardRouter;

@@ -1,9 +1,10 @@
 import { matchesAttributes } from '../database/models/MatchesModel';
 import MatchService from './MatchService';
 import TeamsService from './TeamsService';
+import LeaderBoardInterface from '../interfaces/LeaderBoardInterface';
 
 export default class LeaderBoardService {
-  public static async getAll(value: string) {
+  public static async getAllStatsById(value: string) {
     const allTeams = await TeamsService.findAll();
 
     return Promise.all(allTeams.map(async (team) => {
@@ -23,6 +24,27 @@ export default class LeaderBoardService {
         efficiency: this.getEfficiency(matchStats, value),
       };
     }));
+  }
+
+  public static async allTeamsStats(value: LeaderBoardInterface[]) {
+    const teams = await TeamsService.findAll();
+    const result = teams.map((team) => {
+      const allTeams = value.filter((t) => t.name === team.teamName);
+      return { name: team.teamName,
+        totalPoints: allTeams.reduce((acc, curr) => acc + curr.totalPoints, 0),
+        totalGames: allTeams.reduce((acc, curr) => acc + curr.totalGames, 0),
+        totalVictories: allTeams.reduce((acc, curr) => acc + curr.totalVictories, 0),
+        totalDraws: allTeams.reduce((acc, curr) => acc + curr.totalDraws, 0),
+        totalLosses: allTeams.reduce((acc, curr) => acc + curr.totalLosses, 0),
+        goalsFavor: allTeams.reduce((acc, curr) => acc + curr.goalsFavor, 0),
+        goalsOwn: allTeams.reduce((acc, curr) => acc + curr.goalsOwn, 0),
+        goalsBalance: allTeams.reduce((acc, curr) => acc + curr.goalsBalance, 0),
+        efficiency: (((allTeams.reduce((acc, curr) => acc + curr.totalPoints, 0)
+            / (allTeams.reduce((acc, curr) => acc + curr.totalGames, 0) * 3)) * 100)
+          .toFixed(2)) };
+    });
+    const finalResult = await this.sortAllStats(result);
+    return finalResult;
   }
 
   public static getTotalHomePoints(matchStats: matchesAttributes[]) {
@@ -121,8 +143,10 @@ export default class LeaderBoardService {
     return result;
   }
 
-  public static async sortAllStats(anyTeam: string) {
-    const sortAllStats = await this.getAll(anyTeam);
+  public static async sortAllStats(anyTeam: string | LeaderBoardInterface[]) {
+    const sortAllStats = typeof anyTeam === 'string'
+      ? await this.getAllStatsById(anyTeam)
+      : anyTeam;
     sortAllStats.sort((b, a) => {
       if (a.totalPoints === b.totalPoints) {
         if (a.totalVictories === b.totalVictories) {
